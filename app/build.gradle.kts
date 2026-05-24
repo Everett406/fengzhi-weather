@@ -40,12 +40,10 @@ android {
     signingConfigs {
         create("release") {
             val ksFile = System.getenv("RELEASE_KEYSTORE_PATH")
-            if (ksFile != null) {
-                storeFile = file(ksFile)
-                storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD") ?: ""
-                keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: ""
-                keyPassword = System.getenv("RELEASE_KEY_PASSWORD") ?: ""
-            }
+            storeFile = if (ksFile != null) file(ksFile) else file("release.jks")
+            storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD") ?: "fengzhi2026"
+            keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: "fengzhi"
+            keyPassword = System.getenv("RELEASE_KEY_PASSWORD") ?: "fengzhi2026"
         }
     }
 

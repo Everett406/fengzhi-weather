@@ -24,35 +24,27 @@ jobs:
       run: chmod +x gradlew
 
     - name: Decode keystore
-      run: echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > app/release.jks
+      run: echo "${{ secrets.RELEASE_KEYSTORE_BASE64 }}" | base64 -d > release.jks
 
     - name: Build Signed Release APK
       env:
-        RELEASE_KEYSTORE_PATH: ../app/release.jks
+        RELEASE_KEYSTORE_PATH: release.jks
         RELEASE_KEYSTORE_PASSWORD: ${{ secrets.RELEASE_KEYSTORE_PASSWORD }}
         RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
         RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
       run: ./gradlew assembleRelease
 
-    - name: Get APK info
-      id: apk_info
-      run: |
-        APK_PATH=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
-        APK_NAME=$(basename "$APK_PATH")
-        echo "apk_path=$APK_PATH" >> $GITHUB_OUTPUT
-        echo "apk_name=$APK_NAME" >> $GITHUB_OUTPUT
-
     - name: Upload Release APK as Artifact
       uses: actions/upload-artifact@v4
       with:
         name: release-apk
-        path: ${{ steps.apk_info.outputs.apk_path }}
+        path: app/build/outputs/apk/release/*.apk
 
     - name: Attach APK to Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
-        files: ${{ steps.apk_info.outputs.apk_path }}
+        files: app/build/outputs/apk/release/*.apk
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
