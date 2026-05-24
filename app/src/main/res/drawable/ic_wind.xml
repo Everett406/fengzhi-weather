@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Wind lines -->
+    <path
+        android:pathData="M10,30 Q30,30 40,25 Q55,18 70,25"
+        android:strokeWidth="4"
+        android:strokeColor="#60A5FA"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M15,50 Q35,50 50,45 Q70,38 85,45"
+        android:strokeWidth="4"
+        android:strokeColor="#60A5FA"
+        android:strokeLineCap="round" />
+    <path
+        android:pathData="M10,70 Q25,70 40,65 Q60,58 75,65"
+        android:strokeWidth="4"
+        android:strokeColor="#60A5FA"
+        android:strokeLineCap="round" />
+    
+    <!-- Wind swirls -->
+    <path
+        android:pathData="M75,25 Q85,25 85,35 Q85,45 75,45"
+        android:strokeWidth="3"
+        android:strokeColor="#93C5FD"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent" />
+    <path
+        android:pathData="M80,55 Q90,55 90,65 Q90,75 80,75"
+        android:strokeWidth="3"
+        android:strokeColor="#93C5FD"
+        android:strokeLineCap="round"
+        android:fillColor="@android:color/transparent" />
+</vector>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Cloud -->
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M20,70 Q8,70 8,58 Q8,46 20,46 Q20,30 38,30 Q56,30 56,46 Q72,46 72,58 Q72,70 60,70 Z" />
+    
+    <!-- Second cloud layer -->
+    <path
+        android:fillColor="#E5E7EB"
+        android:pathData="M35,80 Q22,80 22,68 Q22,56 35,56 Q35,40 52,40 Q68,40 68,56 Q82,56 82,68 Q82,80 70,80 Z" />
+</vector>

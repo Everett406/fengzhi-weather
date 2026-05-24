@@ -5,6 +5,18 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
 }
 
+// 从 local.properties 读取 API Key
+val qweatherApiKey: String = try {
+    val localProperties = java.util.Properties()
+    val localPropertiesFile = rootProject.file("local.properties")
+    if (localPropertiesFile.exists()) {
+        localProperties.load(localPropertiesFile.inputStream())
+    }
+    localProperties.getProperty("QWEATHER_API_KEY", "YOUR_QWEATHER_API_KEY")
+} catch (e: Exception) {
+    "YOUR_QWEATHER_API_KEY"
+}
+
 android {
     namespace = "com.fengzhi.weather"
     compileSdk = 34
@@ -20,6 +32,9 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        
+        // BuildConfig 字段
+        buildConfigField("String", "QWEATHER_API_KEY", "\"$qweatherApiKey\"")
     }
 
     buildTypes {
@@ -40,6 +55,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.8"
@@ -62,6 +78,9 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    
+    // Material Icons Extended
+    implementation("androidx.compose.material:material-icons-extended")
 
     // Core KTX
     implementation("androidx.core:core-ktx:1.12.0")

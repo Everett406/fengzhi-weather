@@ -15,6 +15,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+/**
+ * 主题模式枚举
+ */
+object ThemeMode {
+    const val SYSTEM = "system"
+    const val LIGHT = "light"
+    const val DARK = "dark"
+}
+
 private val LightColorScheme = lightColorScheme(
     primary = OrangePrimary,
     onPrimary = OrangeOnPrimary,
@@ -79,12 +88,25 @@ private val DarkColorScheme = darkColorScheme(
     surfaceTint = SurfaceTintDark
 )
 
+/**
+ * 风止天气主题
+ * @param themeMode 主题模式：system（跟随系统）、light（浅色）、dark（深色）
+ * @param dynamicColor 是否使用动态颜色（Android 12+）
+ * @param content 内容
+ */
 @Composable
 fun FengzhiWeatherTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    themeMode: String = ThemeMode.SYSTEM,
     dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
+    // 根据设置决定是否使用深色主题
+    val darkTheme = when (themeMode) {
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+        else -> isSystemInDarkTheme() // 跟随系统
+    }
+    
     val colorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
             val context = LocalContext.current

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Haze/Mist layers -->
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M10,30 Q10,25 20,25 L80,25 Q90,25 90,30 Q90,35 80,35 L20,35 Q10,35 10,30 Z" />
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M15,45 Q15,40 25,40 L75,40 Q85,40 85,45 Q85,50 75,50 L25,50 Q15,50 15,45 Z" />
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M10,60 Q10,55 20,55 L80,55 Q90,55 90,60 Q90,65 80,65 L20,65 Q10,65 10,60 Z" />
+    <path
+        android:fillColor="#D1D5DB"
+        android:pathData="M15,75 Q15,70 25,70 L75,70 Q85,70 85,75 Q85,80 75,80 L25,80 Q15,80 15,75 Z" />
+</vector>

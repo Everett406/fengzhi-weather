@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Moon (partial) -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M70,25 A18,18 0 1,0 70,55 A15,15 0 1,1 70,25" />
+    
+    <!-- Cloud -->
+    <path
+        android:fillColor="#9CA3AF"
+        android:pathData="M25,75 Q15,75 15,65 Q15,55 25,55 Q25,40 40,40 Q55,40 55,55 Q70,55 70,65 Q70,75 60,75 Z" />
+</vector>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Sand/Dust cloud -->
+    <path
+        android:fillColor="#D4A574"
+        android:pathData="M15,35 Q5,35 5,45 Q5,55 15,55 Q15,70 35,70 Q55,70 55,55 Q70,55 70,45 Q70,35 60,35 Q60,20 40,20 Q20,20 20,35 Z" />
+    
+    <!-- Dust particles -->
+    <path
+        android:fillColor="#C4956A"
+        android:pathData="M25,75 A3,3 0 1,1 25,74.9" />
+    <path
+        android:fillColor="#C4956A"
+        android:pathData="M40,80 A2,2 0 1,1 40,79.9" />
+    <path
+        android:fillColor="#C4956A"
+        android:pathData="M55,78 A3,3 0 1,1 55,77.9" />
+    <path
+        android:fillColor="#C4956A"
+        android:pathData="M70,75 A2,2 0 1,1 70,74.9" />
+    <path
+        android:fillColor="#C4956A"
+        android:pathData="M30,85 A2,2 0 1,1 30,84.9" />
+    <path
+        android:fillColor="#C4956A"
+        android:pathData="M60,88 A3,3 0 1,1 60,87.9" />
+</vector>

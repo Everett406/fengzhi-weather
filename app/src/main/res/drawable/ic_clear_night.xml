@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="100dp"
+    android:height="100dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    
+    <!-- Moon crescent -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M60,15 A30,30 0 1,0 60,75 A25,25 0 1,1 60,15" />
+    
+    <!-- Stars -->
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M25,30 L27,35 L32,35 L28,38 L30,43 L25,40 L20,43 L22,38 L18,35 L23,35 Z" />
+    <path
+        android:fillColor="#FBBF24"
+        android:pathData="M80,60 L81,63 L84,63 L82,65 L83,68 L80,66 L77,68 L78,65 L76,63 L79,63 Z" />
+</vector>

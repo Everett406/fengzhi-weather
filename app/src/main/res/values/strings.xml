@@ -19,4 +19,30 @@
     <string name="retry">重试</string>
     <string name="location_permission_required">需要位置权限来获取当前位置的天气信息</string>
     <string name="grant_permission">授予权限</string>
+    
+    <!-- 雷达图 -->
+    <string name="radar_map">雷达图</string>
+    <string name="radar">雷达</string>
+    <string name="precipitation_intensity">降水强度</string>
+    <string name="light_rain">小雨</string>
+    <string name="moderate_rain">中雨</string>
+    <string name="heavy_rain">大雨</string>
+    <string name="very_heavy_rain">暴雨</string>
+    <string name="extreme_rain">特大暴雨</string>
+    <string name="hail">冰雹</string>
+    <string name="loading_radar_data">正在加载雷达数据...</string>
+    <string name="radar_load_error">雷达数据加载失败</string>
+    <string name="radar_image">雷达图像</string>
+    <string name="radar_image_load_failed">雷达图像加载失败</string>
+    <string name="refresh">刷新</string>
+    <string name="play">播放</string>
+    <string name="pause">暂停</string>
+    <string name="previous_frame">上一帧</string>
+    <string name="next_frame">下一帧</string>
+    <string name="past_2_hours">过去2小时</string>
+    <string name="forecast_2_hours">未来2小时预报</string>
+    <string name="forecast_start">预报起点</string>
+    <string name="now">现在</string>
+    <string name="minutes_ago">分钟前</string>
+    <string name="minutes_later">分钟后</string>
 </resources>
