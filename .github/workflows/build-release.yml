@@ -1,12 +1,8 @@
-name: Build Release APK
+name: Build APK
 
 on:
   push:
     branches: [ main, develop ]
-    tags:
-      - 'v*'
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
 jobs:
@@ -22,26 +18,9 @@ jobs:
       with:
         java-version: '17'
         distribution: 'temurin'
-        cache: gradle
         
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-      
-    - name: Cache Gradle packages
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-          
-    - name: Run lint
-      run: ./gradlew lintDebug
-      
-    - name: Run unit tests
-      run: ./gradlew testDebugUnitTest
       
     - name: Build Debug APK
       run: ./gradlew assembleDebug
@@ -50,53 +29,13 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: debug-apk
-        path: app/build/outputs/apk/debug/app-debug.apk
+        path: app/build/outputs/apk/debug/*.apk
         
-    - name: Build Release APK
-      if: startsWith(github.ref, 'refs/tags/v')
+    - name: Build Release APK (unsigned)
       run: ./gradlew assembleRelease
       
-    - name: Sign Release APK
-      if: startsWith(github.ref, 'refs/tags/v')
-      uses: r0adkll/sign-android-release@v1
-      id: sign_app
-      with:
-        releaseDirectory: app/build/outputs/apk/release
-        signingKeyBase64: ${{ secrets.SIGNING_KEY }}
-        alias: ${{ secrets.ALIAS }}
-        keyStorePassword: ${{ secrets.KEY_STORE_PASSWORD }}
-        keyPassword: ${{ secrets.KEY_PASSWORD }}
-      env:
-        BUILD_TOOLS_VERSION: "34.0.0"
-        
-    - name: Wait for signing to complete
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: sleep 30
-        
-    - name: Upload Release APK
-      if: startsWith(github.ref, 'refs/tags/v')
+    - name: Upload Release APK (unsigned)
       uses: actions/upload-artifact@v4
       with:
-        name: release-apk
-        path: ${{ steps.sign_app.outputs.signedReleaseFile }}
-        
-    - name: Create Release
-      if: startsWith(github.ref, 'refs/tags/v')
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ steps.sign_app.outputs.signedReleaseFile }}
-        generate_release_notes: true
-        draft: false
-        prerelease: false
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-    - name: Wait for release creation
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: sleep 10
-      
-    - name: Verify Release
-      if: startsWith(github.ref, 'refs/tags/v')
-      run: |
-        echo "Release created successfully!"
-        echo "Tag: ${{ github.ref_name }}"
+        name: release-apk-unsigned
+        path: app/build/outputs/apk/release/*.apk
