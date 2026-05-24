@@ -37,13 +37,27 @@ android {
         buildConfigField("String", "QWEATHER_API_KEY", "\"$qweatherApiKey\"")
     }
 
+    signingConfigs {
+        create("release") {
+            val ksFile = System.getenv("RELEASE_KEYSTORE_PATH")
+            if (ksFile != null) {
+                storeFile = file(ksFile)
+                storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD") ?: ""
+                keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: ""
+                keyPassword = System.getenv("RELEASE_KEY_PASSWORD") ?: ""
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
