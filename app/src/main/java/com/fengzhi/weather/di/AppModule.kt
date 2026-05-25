@@ -5,10 +5,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.fengzhi.weather.data.api.NictApi
+import com.fengzhi.weather.data.api.QWeatherApi
+import com.fengzhi.weather.data.api.RainViewerApi
 import com.fengzhi.weather.data.api.WeatherApi
 import com.fengzhi.weather.data.local.CityPreferences
 import com.fengzhi.weather.data.local.SettingsPreferences
+import com.fengzhi.weather.data.repository.RadarRepository
 import com.fengzhi.weather.data.repository.SatelliteRepository
+import com.fengzhi.weather.data.repository.WeatherRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +20,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -82,6 +87,52 @@ object AppModule {
     }
 
     /**
+     * 提供和风天气 API 接口实例
+     */
+    @Provides
+    @Singleton
+    fun provideQWeatherApi(okHttpClient: OkHttpClient): QWeatherApi {
+        return Retrofit.Builder()
+            .baseUrl("https://devapi.qweather.com/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(QWeatherApi::class.java)
+    }
+
+    /**
+     * 提供 RainViewer API 接口实例
+     */
+    @Provides
+    @Singleton
+    fun provideRainViewerApi(okHttpClient: OkHttpClient): RainViewerApi {
+        return Retrofit.Builder()
+            .baseUrl("https://api.rainviewer.com/")
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(RainViewerApi::class.java)
+    }
+
+    /**
+     * 提供天气数据仓库
+     */
+    @Provides
+    @Singleton
+    fun provideWeatherRepository(qWeatherApi: QWeatherApi): WeatherRepository {
+        return WeatherRepository(qWeatherApi)
+    }
+
+    /**
+     * 提供雷达数据仓库
+     */
+    @Provides
+    @Singleton
+    fun provideRadarRepository(rainViewerApi: RainViewerApi): RadarRepository {
+        return RadarRepository(rainViewerApi)
+    }
+
+    /**
      * 提供卫星数据仓库
      */
     @Provides
@@ -112,10 +163,10 @@ private class NictApiImpl : NictApi {
         val response = client.newCall(request).execute()
         
         if (!response.isSuccessful) {
-            return retrofit2.Response.error(response.code, response.body ?: okhttp3.ResponseBody.create(null, ""))
+            return retrofit2.Response.error(response.code, response.body ?: "".toResponseBody())
         }
 
-        val body = response.body?.string() ?: return retrofit2.Response.error(500, okhttp3.ResponseBody.create(null, ""))
+        val body = response.body?.string() ?: return retrofit2.Response.error(500, "".toResponseBody())
         
         val gson = com.google.gson.Gson()
         val timestamp = gson.fromJson(body, com.fengzhi.weather.data.model.SatelliteTimestamp::class.java)

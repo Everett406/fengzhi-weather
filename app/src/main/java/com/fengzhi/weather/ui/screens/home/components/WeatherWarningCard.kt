@@ -31,6 +31,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.fengzhi.weather.data.model.WeatherWarning
 import com.fengzhi.weather.utils.Constants
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * 天气预警卡片

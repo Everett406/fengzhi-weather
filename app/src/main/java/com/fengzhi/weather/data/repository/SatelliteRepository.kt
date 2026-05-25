@@ -127,15 +127,15 @@ class SatelliteRepository @Inject constructor(
             for (x in 0 until scale) {
                 for (y in 0 until scale) {
                     val url = when (band) {
-                        SatelliteBand.VISIBLE_LIGHT -> nictApi.getVisibleLightTileUrl(
+                        SatelliteBand.VISIBLE_LIGHT -> NictApi.getVisibleLightTileUrl(
                             scale, timestamp.year, timestamp.month, timestamp.day,
                             timestamp.hourMinute, x, y
                         )
-                        SatelliteBand.INFRARED -> nictApi.getInfraredTileUrl(
+                        SatelliteBand.INFRARED -> NictApi.getInfraredTileUrl(
                             scale, timestamp.year, timestamp.month, timestamp.day,
                             timestamp.hourMinute, x, y
                         )
-                        SatelliteBand.WATER_VAPOR -> nictApi.getWaterVaporTileUrl(
+                        SatelliteBand.WATER_VAPOR -> NictApi.getWaterVaporTileUrl(
                             scale, timestamp.year, timestamp.month, timestamp.day,
                             timestamp.hourMinute, x, y
                         )

@@ -103,8 +103,12 @@ dependencies {
 
     // Core KTX
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation("androidx.activity:activity-compose:1.8.2")
+
+    // Accompanist SwipeRefresh
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.32.0")
 
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.7")

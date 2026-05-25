@@ -24,6 +24,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.fengzhi.weather.data.model.AirQualityNow
 import com.fengzhi.weather.utils.Constants
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 /**
  * 空气质量卡片

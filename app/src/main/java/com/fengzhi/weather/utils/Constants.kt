@@ -37,9 +37,38 @@ object Constants {
     // Location
     const val DEFAULT_LATITUDE = 39.9042
     const val DEFAULT_LONGITUDE = 116.4074
+    const val DEFAULT_CITY_NAME = "北京"
+
+    // DataStore Keys for location
+    const val PREF_LAST_LATITUDE = "last_latitude"
+    const val PREF_LAST_LONGITUDE = "last_longitude"
+    const val PREF_CITY_NAME = "city_name"
 
     // QWeather API Key (fallback)
     const val QWEATHER_API_KEY = ""
+
+    // Warning Levels
+    object WarningLevel {
+        const val RED = "红色"
+        const val ORANGE = "橙色"
+        const val YELLOW = "黄色"
+        const val BLUE = "蓝色"
+        const val WHITE = "白色"
+    }
+
+    // AQI Levels
+    object AqiLevel {
+        fun getLevel(aqi: Int): String {
+            return when {
+                aqi <= 50 -> "优"
+                aqi <= 100 -> "良"
+                aqi <= 150 -> "轻度污染"
+                aqi <= 200 -> "中度污染"
+                aqi <= 300 -> "重度污染"
+                else -> "严重污染"
+            }
+        }
+    }
 
     // Data Sources
     object DataSources {

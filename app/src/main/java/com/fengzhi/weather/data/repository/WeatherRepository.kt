@@ -82,12 +82,23 @@ class WeatherRepository @Inject constructor(
     /**
      * 搜索城市
      */
-    suspend fun searchCity(query: String): Result<List<QWeatherLocation>> {
+    suspend fun searchCity(query: String): Result<List<QWeatherCityLocation>> {
         return withContext(Dispatchers.IO) {
             try {
                 val response = qWeatherApi.searchCity(query, apiKey)
                 if (response.isSuccessful && response.body()?.isSuccess() == true) {
-                    Result.success(response.body()?.location ?: emptyList())
+                    val locations = response.body()?.location?.map { loc ->
+                        QWeatherCityLocation(
+                            name = loc.name ?: "",
+                            id = loc.id ?: "",
+                            lat = loc.lat ?: "0",
+                            lon = loc.lon ?: "0",
+                            adm2 = loc.adm2,
+                            adm1 = loc.adm1,
+                            country = loc.country
+                        )
+                    } ?: emptyList()
+                    Result.success(locations)
                 } else {
                     Result.failure(Exception("搜索失败: ${response.body()?.code}"))
                 }
@@ -144,62 +155,62 @@ class WeatherRepository @Inject constructor(
 
     // ============== 私有方法 ==============
 
-    private suspend fun fetchLocation(location: String): Result<QWeatherLocation?> {
+    private suspend fun fetchLocation(location: String): Result<QWeatherLocation> {
         return try {
             val response = qWeatherApi.getLocationByCoords(location, apiKey)
-            handleResponse(response) { it.location?.firstOrNull() }
+            handleNullableResponse(response) { it.location?.firstOrNull() }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private suspend fun fetchCurrentWeather(location: String): Result<NowWeather?> {
+    private suspend fun fetchCurrentWeather(location: String): Result<NowWeather> {
         return try {
             val response = qWeatherApi.getCurrentWeather(location, apiKey)
-            handleResponse(response) { it.now }
+            handleNullableResponse(response) { it.now }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private suspend fun fetchHourlyForecast(location: String): Result<List<HourlyWeather>?> {
+    private suspend fun fetchHourlyForecast(location: String): Result<List<HourlyWeather>> {
         return try {
             val response = qWeatherApi.getHourlyForecast(location, apiKey)
-            handleResponse(response) { it.hourly }
+            handleNullableResponse(response) { it.hourly }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private suspend fun fetchDailyForecast(location: String): Result<List<DailyWeather>?> {
+    private suspend fun fetchDailyForecast(location: String): Result<List<DailyWeather>> {
         return try {
             val response = qWeatherApi.getDailyForecast(location, apiKey)
-            handleResponse(response) { it.daily }
+            handleNullableResponse(response) { it.daily }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private suspend fun fetchAirQuality(location: String): Result<AirQualityNow?> {
+    private suspend fun fetchAirQuality(location: String): Result<AirQualityNow> {
         return try {
             val response = qWeatherApi.getAirQuality(location, apiKey)
-            handleResponse(response) { it.now }
+            handleNullableResponse(response) { it.now }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
-    private suspend fun fetchWeatherWarnings(location: String): Result<List<WeatherWarning>?> {
+    private suspend fun fetchWeatherWarnings(location: String): Result<List<WeatherWarning>> {
         return try {
             val response = qWeatherApi.getWeatherWarnings(location, apiKey)
-            handleResponse(response) { it.warning }
+            handleNullableResponse(response) { it.warning }
         } catch (e: Exception) {
             Result.failure(e)
         }
     }
 
     /**
-     * 统一处理 API 响应
+     * 统一处理 API 响应（非空转换）
      */
     private inline fun <T, R> handleResponse(
         response: Response<T>,
@@ -221,6 +232,46 @@ class WeatherRepository @Inject constructor(
                 
                 if (code == "200") {
                     Result.success(transform(body))
+                } else {
+                    Result.failure(QWeatherException(code, getErrorMessage(code)))
+                }
+            } else {
+                Result.failure(Exception("响应体为空"))
+            }
+        } else {
+            Result.failure(Exception("网络请求失败: ${response.code()}"))
+        }
+    }
+
+    /**
+     * 统一处理 API 响应（可空转换，结果可能为 null 时使用）
+     * 如果 transform 返回 null，则返回失败结果
+     */
+    private inline fun <T, R : Any> handleNullableResponse(
+        response: Response<T>,
+        transform: (T) -> R?
+    ): Result<R> {
+        return if (response.isSuccessful) {
+            val body = response.body()
+            if (body != null) {
+                // 检查业务状态码
+                val code = when (body) {
+                    is NowWeatherResponse -> body.code
+                    is HourlyForecastResponse -> body.code
+                    is DailyForecastResponse -> body.code
+                    is AirQualityResponse -> body.code
+                    is WeatherWarningResponse -> body.code
+                    is LocationResponse -> body.code
+                    else -> "200"
+                }
+                
+                if (code == "200") {
+                    val result = transform(body)
+                    if (result != null) {
+                        Result.success(result)
+                    } else {
+                        Result.failure(Exception("数据为空"))
+                    }
                 } else {
                     Result.failure(QWeatherException(code, getErrorMessage(code)))
                 }

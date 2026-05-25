@@ -18,54 +18,6 @@ interface NictApi {
     @GET("himawari8/img/D531106/latest.json")
     suspend fun getLatestTimestamp(): Response<SatelliteTimestamp>
 
-    /**
-     * 获取可见光波段图像瓦片 URL
-     * D531106 表示可见光波段
-     */
-    fun getVisibleLightTileUrl(
-        scale: Int,
-        year: String,
-        month: String,
-        day: String,
-        hourMinute: String,
-        x: Int,
-        y: Int
-    ): String {
-        return "https://himawari8-dl.nict.go.jp/himawari8/img/D531106/${scale}d/550/$year/$month/$day/${hourMinute}00_${x}_$y.png"
-    }
-
-    /**
-     * 获取红外波段图像瓦片 URL
-     * B531106 表示红外波段
-     */
-    fun getInfraredTileUrl(
-        scale: Int,
-        year: String,
-        month: String,
-        day: String,
-        hourMinute: String,
-        x: Int,
-        y: Int
-    ): String {
-        return "https://himawari8-dl.nict.go.jp/himawari8/img/B531106/${scale}d/550/$year/$month/$day/${hourMinute}00_${x}_$y.png"
-    }
-
-    /**
-     * 获取水汽波段图像瓦片 URL
-     * S531106 表示水汽波段
-     */
-    fun getWaterVaporTileUrl(
-        scale: Int,
-        year: String,
-        month: String,
-        day: String,
-        hourMinute: String,
-        x: Int,
-        y: Int
-    ): String {
-        return "https://himawari8-dl.nict.go.jp/himawari8/img/S531106/${scale}d/550/$year/$month/$day/${hourMinute}00_${x}_$y.png"
-    }
-
     companion object {
         const val BASE_URL = "https://himawari8-dl.nict.go.jp/"
         
@@ -82,5 +34,53 @@ interface NictApi {
         
         // 瓦片尺寸
         const val TILE_SIZE = 550
+
+        /**
+         * 获取可见光波段图像瓦片 URL
+         * D531106 表示可见光波段
+         */
+        fun getVisibleLightTileUrl(
+            scale: Int,
+            year: String,
+            month: String,
+            day: String,
+            hourMinute: String,
+            x: Int,
+            y: Int
+        ): String {
+            return "https://himawari8-dl.nict.go.jp/himawari8/img/D531106/${scale}d/550/$year/$month/$day/${hourMinute}00_${x}_$y.png"
+        }
+
+        /**
+         * 获取红外波段图像瓦片 URL
+         * B531106 表示红外波段
+         */
+        fun getInfraredTileUrl(
+            scale: Int,
+            year: String,
+            month: String,
+            day: String,
+            hourMinute: String,
+            x: Int,
+            y: Int
+        ): String {
+            return "https://himawari8-dl.nict.go.jp/himawari8/img/B531106/${scale}d/550/$year/$month/$day/${hourMinute}00_${x}_$y.png"
+        }
+
+        /**
+         * 获取水汽波段图像瓦片 URL
+         * S531106 表示水汽波段
+         */
+        fun getWaterVaporTileUrl(
+            scale: Int,
+            year: String,
+            month: String,
+            day: String,
+            hourMinute: String,
+            x: Int,
+            y: Int
+        ): String {
+            return "https://himawari8-dl.nict.go.jp/himawari8/img/S531106/${scale}d/550/$year/$month/$day/${hourMinute}00_${x}_$y.png"
+        }
     }
 }
