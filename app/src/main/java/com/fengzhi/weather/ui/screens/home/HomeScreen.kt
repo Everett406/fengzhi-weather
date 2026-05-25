@@ -77,7 +77,7 @@ fun HomeScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val swipeRefreshState = rememberSwipeRefreshState(
-        refreshing = uiState.isRefreshing
+        isRefreshing = uiState.isRefreshing
     )
 
     Scaffold(
