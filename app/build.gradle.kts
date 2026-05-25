@@ -5,14 +5,16 @@ plugins {
     id("org.jetbrains.kotlin.kapt")
 }
 
+import java.util.Properties
+import java.io.FileInputStream
+
 // 从 local.properties 读取 API Key
 val qweatherApiKey: String = try {
-    val localProperties = java.util.Properties()
-    val localPropertiesFile = rootProject.file("local.properties")
-    if (localPropertiesFile.exists()) {
-        localProperties.load(localPropertiesFile.inputStream())
+    FileInputStream(rootProject.file("local.properties")).use { stream ->
+        val props = Properties()
+        props.load(stream)
+        props.getProperty("QWEATHER_API_KEY", "YOUR_QWEATHER_API_KEY")
     }
-    localProperties.getProperty("QWEATHER_API_KEY", "YOUR_QWEATHER_API_KEY")
 } catch (e: Exception) {
     "YOUR_QWEATHER_API_KEY"
 }
