@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -39,6 +40,7 @@ import com.fengzhi.weather.ui.screens.settings.SearchState
 /**
  * 添加城市对话框
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddCityDialog(
     onDismiss: () -> Unit,
@@ -52,29 +54,18 @@ fun AddCityDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        modifier = modifier
-    ) {
-        androidx.compose.material3.Surface(
-            shape = MaterialTheme.shapes.large,
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 6.dp
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            ) {
-                // 标题
-                Text(
-                    text = "添加城市",
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
+        title = {
+            Text(
+                text = "添加城市",
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
+        text = {
+            Column {
                 // 搜索框
                 OutlinedTextField(
                     value = searchText,
-                    onValueChange = { 
+                    onValueChange = {
                         searchText = it
                         onSearch(it)
                     },
@@ -160,19 +151,15 @@ fun AddCityDialog(
                         }
                     }
                 }
-
-                Spacer(modifier = Modifier.height(8.dp))
-
-                // 取消按钮
-                TextButton(
-                    onClick = onDismiss,
-                    modifier = Modifier.align(Alignment.End)
-                ) {
-                    Text("取消")
-                }
+            }
+        },
+        confirmButton = {},
+        dismissButton = {
+            TextButton(onClick = onDismiss) {
+                Text("取消")
             }
         }
-    }
+    )
 }
 
 /**

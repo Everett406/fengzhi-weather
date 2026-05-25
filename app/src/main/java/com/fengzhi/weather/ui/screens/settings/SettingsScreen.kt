@@ -357,6 +357,7 @@ private fun SettingsSectionTitle(
 /**
  * 主题选择对话框
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun ThemeSelectionDialog(
     currentTheme: String,
@@ -371,34 +372,35 @@ private fun ThemeSelectionDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("主题模式") }
-    ) {
-        Column {
-            options.forEach { (value, label) ->
-                ListItem(
-                    headlineContent = { Text(label) },
-                    leadingContent = {
-                        RadioButton(
-                            selected = currentTheme == value,
-                            onClick = { onSelect(value) }
-                        )
-                    },
-                    modifier = Modifier.clickable { onSelect(value) }
-                )
+        title = { Text("主题模式") },
+        text = {
+            Column {
+                options.forEach { (value, label) ->
+                    ListItem(
+                        headlineContent = { Text(label) },
+                        leadingContent = {
+                            RadioButton(
+                                selected = currentTheme == value,
+                                onClick = { onSelect(value) }
+                            )
+                        },
+                        modifier = Modifier.clickable { onSelect(value) }
+                    )
+                }
             }
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.align(androidx.compose.ui.Alignment.End)
-            ) {
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
                 Text("取消")
             }
         }
-    }
+    )
 }
 
 /**
  * 刷新间隔选择对话框
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RefreshIntervalDialog(
     currentInterval: Int,
@@ -414,34 +416,35 @@ private fun RefreshIntervalDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("自动刷新间隔") }
-    ) {
-        Column {
-            options.forEach { (value, label) ->
-                ListItem(
-                    headlineContent = { Text(label) },
-                    leadingContent = {
-                        RadioButton(
-                            selected = currentInterval == value,
-                            onClick = { onSelect(value) }
-                        )
-                    },
-                    modifier = Modifier.clickable { onSelect(value) }
-                )
+        title = { Text("自动刷新间隔") },
+        text = {
+            Column {
+                options.forEach { (value, label) ->
+                    ListItem(
+                        headlineContent = { Text(label) },
+                        leadingContent = {
+                            RadioButton(
+                                selected = currentInterval == value,
+                                onClick = { onSelect(value) }
+                            )
+                        },
+                        modifier = Modifier.clickable { onSelect(value) }
+                    )
+                }
             }
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.align(androidx.compose.ui.Alignment.End)
-            ) {
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
                 Text("取消")
             }
         }
-    }
+    )
 }
 
 /**
  * 温度单位选择对话框
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun TemperatureUnitDialog(
     currentUnit: String,
@@ -455,34 +458,35 @@ private fun TemperatureUnitDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("温度单位") }
-    ) {
-        Column {
-            options.forEach { (value, label) ->
-                ListItem(
-                    headlineContent = { Text(label) },
-                    leadingContent = {
-                        RadioButton(
-                            selected = currentUnit == value,
-                            onClick = { onSelect(value) }
-                        )
-                    },
-                    modifier = Modifier.clickable { onSelect(value) }
-                )
+        title = { Text("温度单位") },
+        text = {
+            Column {
+                options.forEach { (value, label) ->
+                    ListItem(
+                        headlineContent = { Text(label) },
+                        leadingContent = {
+                            RadioButton(
+                                selected = currentUnit == value,
+                                onClick = { onSelect(value) }
+                            )
+                        },
+                        modifier = Modifier.clickable { onSelect(value) }
+                    )
+                }
             }
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.align(androidx.compose.ui.Alignment.End)
-            ) {
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
                 Text("取消")
             }
         }
-    }
+    )
 }
 
 /**
  * 风速单位选择对话框
  */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun WindUnitDialog(
     currentUnit: String,
@@ -497,27 +501,27 @@ private fun WindUnitDialog(
 
     AlertDialog(
         onDismissRequest = onDismiss,
-        title = { Text("风速单位") }
-    ) {
-        Column {
-            options.forEach { (value, label) ->
-                ListItem(
-                    headlineContent = { Text(label) },
-                    leadingContent = {
-                        RadioButton(
-                            selected = currentUnit == value,
-                            onClick = { onSelect(value) }
-                        )
-                    },
-                    modifier = Modifier.clickable { onSelect(value) }
-                )
+        title = { Text("风速单位") },
+        text = {
+            Column {
+                options.forEach { (value, label) ->
+                    ListItem(
+                        headlineContent = { Text(label) },
+                        leadingContent = {
+                            RadioButton(
+                                selected = currentUnit == value,
+                                onClick = { onSelect(value) }
+                            )
+                        },
+                        modifier = Modifier.clickable { onSelect(value) }
+                    )
+                }
             }
-            TextButton(
-                onClick = onDismiss,
-                modifier = Modifier.align(androidx.compose.ui.Alignment.End)
-            ) {
+        },
+        confirmButton = {
+            TextButton(onClick = onDismiss) {
                 Text("取消")
             }
         }
-    }
+    )
 }
